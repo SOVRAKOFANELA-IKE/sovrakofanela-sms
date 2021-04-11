@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 
 const Home = () => {
     const date = new Date();
@@ -7,6 +7,7 @@ const Home = () => {
     const [message, setMessage] = useState({to: defaultTo, body: defaultBody})
     const [error, setError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
+    const [locked, setLocked] = useState(true)
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -37,11 +38,21 @@ const Home = () => {
         setMessage({...message, [name]: event.target.value})
     }
 
+    const onHandleLock = (event) => {
+        if (event.target.value === 'h123ha123') {
+            setLocked(false)
+        }
+    }
+
     return (
-        <>
-            <div className="App">
+        <div className="App">
+            {locked ? (
+                <header className='App-header'>
+                    <input onChange={onHandleLock} type='password' placeholder='Κωδικός Πρόσβασης' name='password' id='password'/>
+                </header>
+            ) : (
                 <header className="App-header">
-                    <img src='/logo.svg' className="App-logo" alt="logo" />
+                    <img src='/logo.svg' className="App-logo" alt="logo"/>
                     <form
                         onSubmit={onSubmit}
                         className={error ? 'error sms-form' : 'sms-form'}
@@ -71,9 +82,8 @@ const Home = () => {
                         </button>
                     </form>
                 </header>
-            </div>
-
-        </>
+            )}
+        </div>
     )
 }
 
