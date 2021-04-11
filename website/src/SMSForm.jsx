@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 
 const SMSForm = () => {
+    const date = new Date();
     const defaultTo = '+30';
-    const defaultBody = 'SOVRAKOFANELA IKE ΜΟΥΡΟΥΖΗ 3 ΑΦΜ: 801405200 ΤΗΛ: 2610453020 ΩΡΑ: 00:00 '
+    const defaultBody = `SOVRAKOFANELA IKE ΜΟΥΡΟΥΖΗ 3 ΑΦΜ: 801405200 ΤΗΛ: 2610453020 ΩΡΑ: ${date.getHours()}:${date.getMinutes()}`
     const [message, setMessage] = useState({to: defaultTo, body: defaultBody})
     const [error, setError] = useState(false)
     const [submitting, setSubmitting] = useState(false)
@@ -10,7 +11,7 @@ const SMSForm = () => {
     const onSubmit = (event) => {
         event.preventDefault();
         setSubmitting(true)
-        fetch('/api/messages', {
+        fetch('http://localhost:3001/api/messages', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
