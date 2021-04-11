@@ -7,7 +7,6 @@ import { createWrapper } from 'next-redux-wrapper'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { env } from '../config/vars'
-import { State } from '../types'
 
 const logger = createLogger({ collapsed: true })
 
@@ -22,7 +21,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const initialState: State = {
+const initialState = {
 }
 
 // middleware
@@ -32,11 +31,11 @@ const middleware =
     : applyMiddleware(thunk)
 
 // create a makeStore function
-const makeStore: MakeStore<State> = () =>
+const makeStore: MakeStore<any> = () =>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   createStore<any, any, any, any>(persistedReducer, initialState, middleware)
 
 // export an assembled wrapper
-export const wrapper = createWrapper<State>(makeStore, {
+export const wrapper = createWrapper<any>(makeStore, {
   debug: env === 'development',
 })
